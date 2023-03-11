@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "RCP Order Converter",
+    "version": "1.0",
+    "description": "Converts RCP orders to CSV files for easy import into RepairQ.",
+    
+    "icons": {
+        "16": "images/rcpoc16.png",
+        "48": "images/rcpoc48.png",
+        "128": "images/rcpoc128.png"
+    },
+
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+
+    "background" : {
+        "service_worker": "background.js"
+    },
+
+    "action": {
+        "default_title": "Action Button"
+    }
+}
