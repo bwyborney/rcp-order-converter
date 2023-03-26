@@ -1,4 +1,6 @@
 function orderConverter(){
+    // Grab all the elements of the page that have the class 'sku'
+    // These will get parsed for their contents, which are the SKUs
     let skus = [];
     for (let i in document.getElementsByClassName('sku')) {
         skus[i] = document.getElementsByClassName('sku')[i];
@@ -7,6 +9,7 @@ function orderConverter(){
     for (let j in skus) {
         parsedSkus[j] = skus[j].innerHTML;
     }
+    // Remove extraneous HTML, spaces, and other characters from the SKUs
     let strippedSkus = [];
     for (let k in parsedSkus) {
         if(parsedSkus[k] != undefined) {
@@ -18,14 +21,20 @@ function orderConverter(){
             strippedSkus[k] = strippedSkus[k].replace(/ /g, "");
         }
     }
+    /*
+    Apparently, the HTML of any given order page on the RCP website contains several
+    invisible elements that also have the class 'sku'. They include prices, quantities,
+    and everything else... why they are there, I have no idea. But we need to remove them.
+    */
     let fRcp = 0;
     let fRcpCounter = 0;
     for (let i in strippedSkus) {
-        if (strippedSkus[i] === "") {
+        if (strippedSkus[i] === "") { // There is always an element with blank contents separating the real rows from the fake ones
             fRcp = fRcpCounter;
         }
         fRcpCounter += 1;
     }
+    // Create a new list that only contains the information after the blank divider
     let finalSkus = [];
     let finalSkuCutoffCounter = 0;
     let finalSkuCounter = 0;
@@ -37,6 +46,7 @@ function orderConverter(){
         finalSkuCutoffCounter += 1;
     }
 
+    // Now repeat basically the same process for prices and quantities
     let prices = [];
     for (let i in document.getElementsByClassName('price')) {
         prices[i] = document.getElementsByClassName('price')[i];
@@ -127,16 +137,22 @@ function orderConverter(){
     }
 
     let orderNo = document.getElementsByClassName('base')[0].innerHTML.replace('Order # ', '');
+
+    // Create a list that contains all the data we just pulled
     let csvData = [];
     for (let p in finalSkus) {
-        csvData[p] =  [finalSkus[p], finalSkus[p], finalQuantities[p], finalPrices[p], '', orderNo];
+        csvData[p] =  [finalSkus[p], finalSkus[p], finalQuantities[p], finalPrices[p], ' ', ' ', ' ', ' ', orderNo, ' ', ' '];
+        // Those blank spaces are going to fill in the columns like 'Supplier' and 'Use fifo,' since they're not needed
     }
 
-    let csv = 'Catalog Item, Supplier SKU, Qty, Cost, Note, Vendor Order ID\n';
+    // Create the header row for the CSV file
+    let csv = 'Catalog Item,Supplier SKU,Qty,Cost,Price,Note,Location,Supplier,Vendor Order ID,Backordered tickets,Use fifo\n';
+    // Add the data from the csvData variable, one index at a time. Each index will be a row in the CSV file
     csvData.forEach(row => {
         csv += row.join(',');
         csv += '\n';
     });
+    // Generate and download the CSV file
     let fileName = `${orderNo}.csv`;
     let hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
@@ -146,6 +162,7 @@ function orderConverter(){
 
 }
 
+// When the extension is clicked, run the orderConverter() function above
 chrome.action.onClicked.addListener((tab) => {
     chrome.scripting.executeScript({
         target: { tabId: tab.id },
