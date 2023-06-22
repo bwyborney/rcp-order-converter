@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "RCP Order Converter",
-    "version": "1.1",
+    "version": "2.0",
     "description": "Converts RCP orders to CSV files for easy import into RepairQ.",
     
     "icons": {
@@ -16,10 +16,20 @@
     ],
 
     "background" : {
-        "service_worker": "background.js"
+        "service_worker": "scripts/background.js"
     },
 
     "action": {
         "default_title": "Action Button"
-    }
+    },
+
+    "content_scripts" : [
+        {
+            "js" : ["scripts/content.js"],
+            "matches" : [
+                "https://b2b.zagg.com/invoice-details/*"
+            ]
+        }
+
+    ]
 }
