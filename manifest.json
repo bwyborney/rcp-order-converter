@@ -15,20 +15,13 @@
         "scripting"
     ],
 
-    "background" : {
-        "service_worker": "scripts/background.js"
-    },
-
-    "action": {
-        "default_title": "Action Button"
-    },
-
     "content_scripts" : [
         {
-            "js" : ["scripts/content.js"],
+            "js" : ["scripts/zagg.js"],
             "matches" : [
                 "https://b2b.zagg.com/invoice-details/*"
-            ]
+            ],
+            "run_at": "document_end"
         }
 
     ]

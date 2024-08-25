@@ -1,0 +1,10 @@
+- [ ] Convert button on RCP page to use stylesheet instead of inline style
+- [ ] look into pulling more complete information, such as condition, tracking number, etc.
+- [ ] Add other suppliers
+    - [ ] ifixit
+    - [ ] phonelcdparts
+    - [ ] wesellcellular
+    - [ ] assurant cpo (can this pull the condition as well?)
+    - [ ] injured gadgets
+    - [ ] ebay
+    - [ ] amazon
