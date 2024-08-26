@@ -22,6 +22,13 @@
                 "https://b2b.zagg.com/invoice-details/*"
             ],
             "run_at": "document_end"
+        },
+        {
+            "js" : ["scripts/phoneLcdParts.js"],
+            "matches" : [
+                "https://www.phonelcdparts.com/sales/order/print/order_id/*"
+            ],
+            "run_at": "document_end"
         }
 
     ]
