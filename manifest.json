@@ -24,13 +24,12 @@
             "run_at": "document_end"
         },
         {
+            "matches" : [
+                "*://*.cellhelmetwholesale.com/scs/my_account.ssp"
+            ],
             "js" : ["scripts/cellhelmet.js"],
             "css" : ["style/cellhelmet.css"],
-            "matches" : [
-                "https://www.cellhelmetwholesale.com/scs/*/view/salesorder/*"
-            ],
             "run_at": "document_end"
         }
-
     ]
 }
