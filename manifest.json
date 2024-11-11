@@ -24,9 +24,10 @@
             "run_at": "document_end"
         },
         {
-            "js" : ["scripts/phoneLcdParts.js"],
+            "js" : ["scripts/cellhelmet.js"],
+            "css" : ["style/cellhelmet.css"],
             "matches" : [
-                "https://www.phonelcdparts.com/sales/order/print/order_id/*"
+                "https://www.cellhelmetwholesale.com/scs/*/view/salesorder/*"
             ],
             "run_at": "document_end"
         }
