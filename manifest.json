@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "RCP Order Converter",
+    "name": "RQ Order Converter",
     "version": "2.0",
-    "description": "Converts RCP orders to CSV files for easy import into RepairQ.",
+    "description": "Converts orders for RCP and other suppliers to CSV files for easy import into RepairQ.",
     
     "icons": {
         "16": "images/rcpoc16.png",
@@ -25,7 +25,7 @@
         },
         {
             "matches" : [
-                "*://*.cellhelmetwholesale.com/scs/my_account.ssp"
+                "*://*.cellhelmetwholesale.com/scs/my_account.ssp*"
             ],
             "js" : ["scripts/cellhelmet.js"],
             "css" : ["style/cellhelmet.css"],
