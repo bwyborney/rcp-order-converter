@@ -21,15 +21,10 @@ function generate() {
     for (let co = 0; co < costDivs.length; co++) {
         // This site gives the total cost, rather than per-unit cost, so need to divide by quantity
         let totalCost = costDivs[co].innerText;
-        console.log(totalCost);
         totalCost = totalCost.replace(/\$(.*)/, "$1");
-        console.log(totalCost);
         let costInt = parseFloat(totalCost);
-        console.log(costInt);
         let quantity = parseInt(quantities[co]);
-        console.log(quantity);
         let perUnit = costInt / quantity;
-        console.log(perUnit)
         costs[co] = perUnit;
     }
 
