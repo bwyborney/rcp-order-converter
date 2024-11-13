@@ -3,7 +3,9 @@ function generate() {
     let skus = [];
     let quantities = [];
     let costs = [];
-    let orderNumber;
+
+    let orderDiv = document.getElementsByClassName('order-history-details-order-number')[0];
+    let orderNumber = orderDiv.innerText;
 
     let skuDivs = document.getElementsByClassName('product-line-sku-value');
     for (let sd = 0; sd < skuDivs.length; sd++) {
@@ -17,7 +19,18 @@ function generate() {
 
     let costDivs = document.getElementsByClassName('transaction-line-views-quantity-amount-item-amount');
     for (let co = 0; co < costDivs.length; co++) {
-        costs[co] = costDivs[co].innerText;
+        // This site gives the total cost, rather than per-unit cost, so need to divide by quantity
+        let totalCost = costDivs[co].innerText;
+        console.log(totalCost);
+        totalCost = totalCost.replace(/\$(.*)/, "$1");
+        console.log(totalCost);
+        let costInt = parseFloat(totalCost);
+        console.log(costInt);
+        let quantity = parseInt(quantities[co]);
+        console.log(quantity);
+        let perUnit = costInt / quantity;
+        console.log(perUnit)
+        costs[co] = perUnit;
     }
 
     let csvData = [];
@@ -60,4 +73,3 @@ const config = {childList: true, attributes: true};
 let watch = document.getElementById('main');
 const observer = new MutationObserver(checkForContents);
 observer.observe(watch, config);
-
