@@ -30,6 +30,13 @@
                 "*://www.cellhelmetwholesale.com/scs/my_account.ssp*"
             ],
             "run_at": "document_end"
+        },
+        {
+            "js" : ["scripts/hyla.js"],
+            "matches" : [
+                "https://buy.hylamobile.com/orders/*"
+            ],
+            "run_at": "document_end"
         }
     ]
 }
