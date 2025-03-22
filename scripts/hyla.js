@@ -19,15 +19,21 @@ function parseOutItemName(itemName) {
     let nameRegex = /^(iPhone|iPod|iPad|Macbook|Watch|Pixel|Moto|Edge|Razr|Revvl|Nord).*/;
     // Regex to match storage
     let storageRegex = /[0-9]{2,4}(GB|gb|Gb)$/;
+    // Finding the color of the phone via string matching seems really difficult, so for now, I'm being lazy:
+    // The color seems to always come right after the storage. So I'll just mark the storage index, then
+    // assume the next index contains the color. Ta-da!
+    let colorIndex = -1;
     // Loop through the split array and try to identify each bit of information
     for (let n = 0; n < splitName.length; n++) {
         if (nameRegex.test(splitName[n])) { 
             parsedItemName.model = splitName[n];
         } else if (storageRegex.test(splitName[n])) { 
             parsedItemName.storage = splitName[n];
+            colorIndex = n + 1;
+        } else if (n == colorIndex) {
+            parsedItemName.color = splitName[n];
         }
     }
-
     return parsedItemName;
 }
 
@@ -43,8 +49,26 @@ function convertAndCopy() {
         let itemName = row.children[0].innerText;
         // Send the name of the item out to be parsed
         let parsedItemName = parseOutItemName(itemName);
-        console.log(parsedItemName);
+        // Grab the ordered quantity and shipped quantity for this product
+        let orderedQty = row.children[1].innerText;
+        let shippedQty = row.children[4].innerText;
+        // Grab the per-unit cost
+        let costPerUnitString =  row.children[5].innerText;
+        // Clean up costPer into a float
+        let costPerUnitFloat = structuredClone(costPerUnitString);
+        costPerUnitFloat = costPerUnitFloat.replace('$', '');
+        costPerUnitFloat = parseFloat(costPerUnitFloat);
+        
+        data.push({
+            item: parsedItemName,
+            orderedQty: orderedQty,
+            shippedQty: shippedQty,
+            costPerUnitString: costPerUnitString,
+            costPerUnitFloat: costPerUnitFloat
+        });
     }
+
+    console.log(data);
 }
 
 // Add a button to trigger the conversion
