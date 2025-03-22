@@ -1,6 +1,50 @@
-// Handle the conversion
+// Parse the listed item name into something usable
+function parseOutItemName(itemName) {
+    // Create a placholder array to split the itemName string into
+    let splitName = [];
+    // Item names are written in different formats depending on the warehouse.
+    // Figure out here which format is being used
+    if (/(.*\.){3,}/gm.test(itemName)) { // Test for dots between substrings
+        splitName = itemName.split('.');
+    } else if (/(.* \/ ){3,}/gm.test(itemName)) { // Test for slashes between substrings
+        splitName = itemName.split(' / ');
+    }
+    // Create an object for holding each individual part of the item name
+    let parsedItemName = {
+        model: '',
+        storage: '',
+        color: ''
+    };
+    // Create some regex to match the item name
+    let nameRegex = /^(iPhone|iPod|iPad|Macbook|Watch|Pixel|Moto|Edge|Razr|Revvl|Nord).*/;
+    // Regex to match storage
+    let storageRegex = /[0-9]{2,4}(GB|gb|Gb)$/;
+    // Loop through the split array and try to identify each bit of information
+    for (let n = 0; n < splitName.length; n++) {
+        if (nameRegex.test(splitName[n])) { 
+            parsedItemName.model = splitName[n];
+        } else if (storageRegex.test(splitName[n])) { 
+            parsedItemName.storage = splitName[n];
+        }
+    }
+
+    return parsedItemName;
+}
+
+// Triggered when the button is clicked. Pull all the information off the page
 function convertAndCopy() {
-    console.log('nice');
+    // Set up an array to hold the data as it is captured
+    let data = [];
+    // Identify the table body
+    const table = document.getElementById('DataTables_Table_0').children[1];
+    // Loop through each row in the table
+    for (let t = 0; t < table.children.length; t++) {
+        let row = table.children[t];
+        let itemName = row.children[0].innerText;
+        // Send the name of the item out to be parsed
+        let parsedItemName = parseOutItemName(itemName);
+        console.log(parsedItemName);
+    }
 }
 
 // Add a button to trigger the conversion
